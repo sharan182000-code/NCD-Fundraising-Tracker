@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Raising Tracker · ₹20 Cr · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0b0c0e;
+  --bg1:      #111316;
+  --bg2:      #161a1e;
+  --bg3:      #1c2026;
+  --bg4:      #232830;
+  --ln:       #222730;
+  --ln2:      #2e3540;
+  --ln3:      #3a4250;
+  --t:        #f0ece4;
+  --t2:       #b8b2a8;
+  --t3:       #6e6860;
+  --t4:       #333038;
+  --amber:    #f0a030;
+  --amber2:   #f8c060;
+  --ambdim:   rgba(240,160,48,0.09);
+  --ambbrd:   rgba(240,160,48,0.22);
+  --green:    #28c46a;
+  --greendim: rgba(40,196,106,0.09);
+  --greenbrd: rgba(40,196,106,0.25);
+  --red:      #e84848;
+  --reddim:   rgba(232,72,72,0.09);
+  --redbrd:   rgba(232,72,72,0.25);
+  --blue:     #4898f0;
+  --bluedim:  rgba(72,152,240,0.09);
+  --bluebrd:  rgba(72,152,240,0.25);
+  --ai:       #7c5af0;
+  --aidim:    rgba(124,90,240,0.10);
+  --aibrd:    rgba(124,90,240,0.28);
+  --mono:     'DM Mono', monospace;
+  --disp:     'Syne', sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* ── NAV TABS ── */
+.nav{position:sticky;top:0;z-index:100;background:var(--bg1);border-bottom:2px solid var(--ln2);display:flex;align-items:stretch;padding:0 28px;gap:0}
+.nav-brand{font-family:var(--disp);font-size:13px;font-weight:800;letter-spacing:0.04em;color:var(--amber);display:flex;align-items:center;padding-right:28px;border-right:1px solid var(--ln);margin-right:8px;white-space:nowrap}
+.nav-tab{font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--t3);padding:14px 18px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;white-space:nowrap}
+.nav-tab:hover{color:var(--t2)}
+.nav-tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.nav-target{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:0.04em}
+.nav-target strong{color:var(--amber2)}
+
+/* ── PANELS ── */
+.panel{display:none;padding:28px;max-width:1280px;margin:0 auto}
+.panel.active{display:block}
+
+/* ── SECTION HEADERS ── */
+.sec-hdr{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.sec-hdr::after{content:'';flex:1;height:1px;background:var(--ln)}
+.sec-hdr .ai-badge{font-size:9px;background:var(--ai);color:#fff;padding:2px 7px;letter-spacing:0.12em;border-radius:2px;font-weight:700}
+
+/* ── DASHBOARD TOP STRIP ── */
+.dash-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--ln);border:1px solid var(--ln);margin-bottom:28px}
+.dash-cell{background:var(--bg1);padding:18px 20px;display:flex;flex-direction:column;gap:6px}
+.dash-cell-label{font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.20em;text-transform:uppercase;color:var(--t3)}
+.dash-cell-val{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:-0.03em;line-height:1}
+.dash-cell-val.amber{color:var(--amber2)}
+.dash-cell-val.green{color:var(--green)}
+.dash-cell-val.red{color:var(--red)}
+.dash-cell-val.neutral{color:var(--t)}
+.dash-cell-sub{font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:0.02em}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{margin-bottom:24px}
+.prog-label-row{display:flex;justify-content:space-between;margin-bottom:6px;font-family:var(--mono);font-size:10px;color:var(--t3)}
+.prog-track{height:6px;background:var(--ln2);position:relative}
+.prog-expected{position:absolute;left:0;top:0;height:100%;background:var(--ln3);transition:width .4s}
+.prog-actual{position:absolute;left:0;top:0;height:100%;background:var(--amber);transition:width .4s;z-index:1}
+
+/* ── ASSUMPTION BOX ── */
+.assumption-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.assumption-card{background:var(--bg2);border:1px solid var(--ln);padding:20px}
+.ac-title{font-family:var(--disp);font-size:13px;font-weight:700;color:var(--t);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--ln)}
+.ac-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--ln)}
+.ac-row:last-child{border-bottom:none}
+.ac-k{font-family:var(--mono);font-size:11px;color:var(--t3)}
+.ac-v{font-family:var(--mono);font-size:12px;color:var(--amber2);font-weight:500}
+
+/* ── WEEKLY TABLE ── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--ln);margin-bottom:28px}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead tr{background:var(--bg3)}
+thead th{font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--t3);padding:11px 14px;text-align:right;border-bottom:1px solid var(--ln2);white-space:nowrap}
+thead th:first-child{text-align:left}
+tbody tr{border-bottom:1px solid var(--ln);transition:background .1s}
+tbody tr:hover{background:var(--bg2)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:10px 14px;font-family:var(--mono);font-size:12px;color:var(--t2);text-align:right;vertical-align:middle}
+tbody td:first-child{text-align:left;color:var(--t);font-weight:500;font-size:11.5px}
+.wk-phase{font-family:var(--disp);font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:2px 7px;border:1px solid transparent}
+.wk-phase.build{color:var(--blue);border-color:var(--bluebrd);background:var(--bluedim)}
+.wk-phase.early{color:var(--amber);border-color:var(--ambbrd);background:var(--ambdim)}
+.wk-phase.scale{color:var(--green);border-color:var(--greenbrd);background:var(--greendim)}
+.wk-zero{color:var(--t4) !important}
+.wk-cap{color:var(--amber2) !important;font-weight:500}
+.tbl-month-hdr td{background:var(--bg3);color:var(--t3) !important;font-family:var(--disp) !important;font-size:9px !important;font-weight:700 !important;letter-spacing:0.16em !important;text-transform:uppercase !important;padding:9px 14px !important;border-top:2px solid var(--ln2);border-bottom:1px solid var(--ln2)}
+
+/* ── MONTHLY CARDS ── */
+.month-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px}
+.month-card{background:var(--bg2);border:1px solid var(--ln);padding:18px}
+.month-card-title{font-family:var(--disp);font-size:14px;font-weight:800;color:var(--t);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--ln)}
+.month-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--ln)}
+.month-row:last-child{border-bottom:none;padding-top:10px}
+.month-k{font-family:var(--mono);font-size:10.5px;color:var(--t3)}
+.month-v{font-family:var(--mono);font-size:12.5px;color:var(--t);font-weight:500}
+.month-v.cap{color:var(--amber2);font-size:14px}
+.month-v.zero{color:var(--t4)}
+
+/* ── CALENDAR ── */
+.cal-month-title{font-family:var(--disp);font-size:16px;font-weight:800;color:var(--t);margin-bottom:12px}
+.cal-dow-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
+.cal-dow{font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--t3);text-align:center;padding:6px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:28px}
+.cal-cell{background:var(--bg2);border:1px solid var(--ln);min-height:90px;padding:8px 10px;cursor:pointer;transition:border-color .15s;position:relative}
+.cal-cell:hover{border-color:var(--ln3)}
+.cal-cell.today{border-color:var(--amber);border-width:2px}
+.cal-cell.empty{background:var(--bg1);border-color:var(--bg1);min-height:90px;cursor:default}
+.cal-cell.weekend{opacity:0.5}
+.cal-cell.logged{border-color:var(--greenbrd);background:var(--greendim)}
+.cal-cell.over-target{border-color:var(--greenbrd)}
+.cal-cell.under-target{border-color:var(--ambbrd)}
+.cal-cell.far-behind{border-color:var(--redbrd);background:var(--reddim)}
+.cal-d{font-family:var(--disp);font-size:12px;font-weight:700;color:var(--t3);margin-bottom:4px}
+.cal-cell.today .cal-d{color:var(--amber)}
+.cal-intensity{font-family:var(--mono);font-size:8.5px;color:var(--t4);margin-bottom:4px;letter-spacing:0.06em}
+.cal-expected{font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.6}
+.cal-actual{font-family:var(--mono);font-size:9px;color:var(--green);line-height:1.6;display:none}
+.cal-cell.logged .cal-actual{display:block}
+.cal-cell.logged .cal-expected{display:none}
+
+/* ── INPUT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--ln2);width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal-hdr{background:var(--bg3);padding:18px 22px;border-bottom:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--t)}
+.modal-close{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px;font-family:var(--mono)}
+.modal-close:hover{color:var(--red)}
+.modal-body{padding:22px}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
+.input-group{display:flex;flex-direction:column;gap:6px}
+.input-group label{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--t3)}
+.input-group .hint{font-family:var(--mono);font-size:9.5px;color:var(--t4);margin-top:-2px}
+.inp{background:var(--bg);border:1px solid var(--ln2);color:var(--amber2);font-family:var(--mono);font-size:20px;font-weight:500;padding:10px 12px;outline:none;width:100%;transition:border-color .15s;-moz-appearance:textfield}
+.inp::-webkit-inner-spin-button,.inp::-webkit-outer-spin-button{-webkit-appearance:none}
+.inp:focus{border-color:var(--amber)}
+.inp.cap-inp{font-size:16px;color:var(--amber2)}
+.modal-expected-summary{background:var(--bg);border:1px solid var(--ln);padding:12px 14px;margin-bottom:16px;font-family:var(--mono);font-size:11px;color:var(--t3);line-height:1.8}
+.modal-expected-summary strong{color:var(--t2);display:inline-block;width:80px}
+.modal-save{width:100%;background:var(--amber);border:none;color:var(--bg);font-family:var(--disp);font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;padding:14px;cursor:pointer;transition:background .15s}
+.modal-save:hover{background:var(--amber2)}
+
+/* ── TRACKING TABLE ── */
+.track-tbl-wrap{overflow-x:auto;border:1px solid var(--ln);margin-bottom:24px}
+.track-tbl{width:100%;border-collapse:collapse;min-width:700px}
+.track-tbl thead th{font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--t3);padding:10px 14px;text-align:right;border-bottom:1px solid var(--ln2);background:var(--bg3)}
+.track-tbl thead th:first-child{text-align:left}
+.track-tbl tbody tr{border-bottom:1px solid var(--ln);transition:background .1s}
+.track-tbl tbody tr:hover{background:var(--bg2)}
+.track-tbl tbody tr:last-child{border-bottom:none}
+.track-tbl tbody td{padding:9px 14px;font-family:var(--mono);font-size:11.5px;color:var(--t2);text-align:right}
+.track-tbl tbody td:first-child{text-align:left;color:var(--t);font-weight:500}
+.gap-pos{color:var(--green) !important;font-weight:500}
+.gap-neg{color:var(--red) !important;font-weight:500}
+.gap-zero{color:var(--t3) !important}
+
+/* ── AI PANEL ── */
+.ai-section{border:1px solid var(--aibrd);background:var(--aidim);padding:22px;margin-bottom:24px}
+.ai-section-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ai-icon{width:28px;height:28px;background:var(--ai);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ai-section-title{font-family:var(--disp);font-size:13px;font-weight:700;color:var(--t)}
+.ai-section-sub{font-family:var(--mono);font-size:10px;color:var(--t3);margin-left:auto}
+.ai-output{font-family:var(--mono);font-size:12.5px;color:var(--t2);line-height:1.8;min-height:60px}
+.ai-output.loading{color:var(--t3);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.ai-output p{margin-bottom:10px}
+.ai-output p:last-child{margin-bottom:0}
+.ai-output strong{color:var(--amber2);font-weight:500}
+.ai-output ul{padding-left:16px;margin:6px 0}
+.ai-output li{margin-bottom:4px}
+.ai-btn{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:var(--ai);color:#fff;border:none;padding:9px 18px;cursor:pointer;transition:opacity .15s;margin-top:14px;display:inline-flex;align-items:center;gap:8px}
+.ai-btn:hover{opacity:0.85}
+.ai-btn:disabled{opacity:0.45;cursor:not-allowed}
+.ai-btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.ai-btn.secondary{background:transparent;border:1px solid var(--aibrd);color:var(--ai)}
+.ai-divider{height:1px;background:var(--aibrd);margin:18px 0;opacity:0.5}
+
+/* ── CHAT ── */
+.chat-wrap{border:1px solid var(--ln2);background:var(--bg1);display:flex;flex-direction:column;height:380px;margin-bottom:24px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--ln2)}
+.chat-msg{max-width:85%;padding:11px 14px;font-family:var(--mono);font-size:12px;line-height:1.7}
+.chat-msg.user{background:var(--bg3);border:1px solid var(--ln2);align-self:flex-end;color:var(--t)}
+.chat-msg.ai{background:var(--aidim);border:1px solid var(--aibrd);align-self:flex-start;color:var(--t2)}
+.chat-msg.ai strong{color:var(--amber2)}
+.chat-msg.loading{color:var(--t3);animation:pulse 1.2s ease-in-out infinite}
+.chat-input-row{border-top:1px solid var(--ln);display:flex}
+.chat-inp{flex:1;background:transparent;border:none;color:var(--t);font-family:var(--mono);font-size:12.5px;padding:13px 16px;outline:none}
+.chat-inp::placeholder{color:var(--t4)}
+.chat-send{background:var(--ai);border:none;color:#fff;font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:0 18px;cursor:pointer;transition:opacity .15s}
+.chat-send:hover{opacity:0.85}
+
+/* ── MISC ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid var(--ln);padding:20px}
+.label-sm{font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.gap-legend{display:flex;gap:16px;font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:8px}
+.gap-legend span{display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:50%}
+
+@media(max-width:900px){
+  .dash-strip{grid-template-columns:repeat(3,1fr)}
+  .assumption-grid,.month-grid{grid-template-columns:1fr}
+  .modal-row{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">₹20 Cr Tracker</div>
+  <button class="nav-tab active" onclick="showPanel('dashboard')">Dashboard</button>
+  <button class="nav-tab" onclick="showPanel('weekly')">Weekly Plan</button>
+  <button class="nav-tab" onclick="showPanel('monthly')">Monthly View</button>
+  <button class="nav-tab" onclick="showPanel('calendar')">Calendar</button>
+  <button class="nav-tab" onclick="showPanel('tracking')">Tracking</button>
+  <button class="nav-tab" onclick="showPanel('ai')">✦ AI Coach</button>
+  <div class="nav-right">
+    <div class="nav-target">Target <strong>₹20 Cr</strong> · Apr–Aug 2026</div>
+  </div>
+</nav>
+
+<!-- MODAL: Day Input -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title">Log Day</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-expected-summary" id="modal-expected"></div>
+      <div class="modal-row">
+        <div class="input-group">
+          <label>LinkedIn Connects</label>
+          <div class="hint" id="hint-li"></div>
+          <input class="inp" type="number" id="m-li" placeholder="0" min="0">
+        </div>
+        <div class="input-group">
+          <label>Emails Sent</label>
+          <div class="hint" id="hint-em"></div>
+          <input class="inp" type="number" id="m-em" placeholder="0" min="0">
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="input-group">
+          <label>CA Outreach</label>
+          <div class="hint" id="hint-ca"></div>
+          <input class="inp" type="number" id="m-ca" placeholder="0" min="0">
+        </div>
+        <div class="input-group">
+          <label>Conversions</label>
+          <div class="hint">Investors who committed today</div>
+          <input class="inp" type="number" id="m-conv" placeholder="0" min="0">
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="input-group">
+          <label>Capital Raised (₹ Cr)</label>
+          <div class="hint">e.g. 0.5 for ₹50L</div>
+          <input class="inp cap-inp" type="number" id="m-cap" placeholder="0.00" min="0" step="0.25">
+        </div>
+        <div class="input-group">
+          <label>Notes</label>
+          <div class="hint">Optional — key events</div>
+          <input class="inp" type="text" id="m-note" placeholder="e.g. CA meeting done" style="font-size:13px;color:var(--t)">
+        </div>
+      </div>
+      <button class="modal-save" id="modal-save-btn" onclick="saveDay()">Save →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ DASHBOARD ═══════ -->
+<div class="panel active" id="panel-dashboard">
+  <div class="dash-strip" id="dash-strip">
+    <div class="dash-cell"><div class="dash-cell-label">Total Target</div><div class="dash-cell-val amber">₹20 Cr</div><div class="dash-cell-sub">Apr–Aug 2026</div></div>
+    <div class="dash-cell"><div class="dash-cell-label">Expected Till Date</div><div class="dash-cell-val neutral" id="d-expected">₹0 Cr</div><div class="dash-cell-sub" id="d-exp-sub">Day 0 of 120</div></div>
+    <div class="dash-cell"><div class="dash-cell-label">Actual Raised</div><div class="dash-cell-val green" id="d-actual">₹0 Cr</div><div class="dash-cell-sub" id="d-act-sub">0 investors</div></div>
+    <div class="dash-cell"><div class="dash-cell-label">Surplus / Shortfall</div><div class="dash-cell-val" id="d-gap">—</div><div class="dash-cell-sub" id="d-gap-sub">vs plan</div></div>
+    <div class="dash-cell"><div class="dash-cell-label">Outreach Done vs Plan</div><div class="dash-cell-val neutral" id="d-outreach">0 / 0</div><div class="dash-cell-sub" id="d-out-sub">LI + Email + CA</div></div>
+    <div class="dash-cell"><div class="dash-cell-label">Conversions vs Expected</div><div class="dash-cell-val neutral" id="d-conv">0 / 0</div><div class="dash-cell-sub" id="d-conv-sub">investors closed</div></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-label-row"><span>₹0</span><span id="prog-exp-label">Expected: ₹0</span><span id="prog-act-label">Actual: ₹0</span><span>₹20 Cr</span></div>
+    <div class="prog-track">
+      <div class="prog-expected" id="prog-exp" style="width:0%"></div>
+      <div class="prog-actual" id="prog-act" style="width:0%"></div>
+    </div>
+    <div class="gap-legend" style="margin-top:6px">
+      <span><span class="dot" style="background:var(--ln3)"></span>Expected</span>
+      <span><span class="dot" style="background:var(--amber)"></span>Actual</span>
+    </div>
+  </div>
+
+  <div class="sec-hdr">Assumptions <span class="ai-badge">Fixed — Do not change</span></div>
+  <div class="assumption-grid">
+    <div class="assumption-card">
+      <div class="ac-title">LinkedIn</div>
+      <div class="ac-row"><div class="ac-k">Weekly connects target</div><div class="ac-v">100/wk</div></div>
+      <div class="ac-row"><div class="ac-k">Response rate</div><div class="ac-v">2%</div></div>
+      <div class="ac-row"><div class="ac-k">Conversion rate</div><div class="ac-v">0.02%</div></div>
+      <div class="ac-row"><div class="ac-k">Avg ticket size</div><div class="ac-v">₹1 Cr</div></div>
+      <div class="ac-row"><div class="ac-k">100 connects → closes</div><div class="ac-v">~0.02 closes</div></div>
+    </div>
+    <div class="assumption-card">
+      <div class="ac-title">Email / Direct Outreach</div>
+      <div class="ac-row"><div class="ac-k">Weekly emails target</div><div class="ac-v">300/wk</div></div>
+      <div class="ac-row"><div class="ac-k">Leads per 300 emails</div><div class="ac-v">5 leads</div></div>
+      <div class="ac-row"><div class="ac-k">Lead → close rate</div><div class="ac-v">~15%</div></div>
+      <div class="ac-row"><div class="ac-k">Avg ticket size</div><div class="ac-v">₹1 Cr</div></div>
+      <div class="ac-row"><div class="ac-k">300 emails → closes</div><div class="ac-v">~0.75 closes</div></div>
+    </div>
+    <div class="assumption-card">
+      <div class="ac-title">CA Outreach</div>
+      <div class="ac-row"><div class="ac-k">Weekly CA outreach</div><div class="ac-v">15/wk</div></div>
+      <div class="ac-row"><div class="ac-k">50 outreach → relationships</div><div class="ac-v">1 strong CA</div></div>
+      <div class="ac-row"><div class="ac-k">CA referrals per close</div><div class="ac-v">20–30 referrals</div></div>
+      <div class="ac-row"><div class="ac-k">Referral → conversion</div><div class="ac-v">1 close</div></div>
+      <div class="ac-row"><div class="ac-k">Avg ticket size</div><div class="ac-v">₹1 Cr</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ WEEKLY PLAN ═══════ -->
+<div class="panel" id="panel-weekly">
+  <div class="sec-hdr">Weekly Execution Plan — Week 1 to 20</div>
+  <div class="tbl-wrap">
+    <table id="weekly-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">Week / Phase</th>
+          <th>LI Target</th>
+          <th>Email Target</th>
+          <th>CA Outreach</th>
+          <th>Exp. Responses</th>
+          <th>Exp. Conversions</th>
+          <th>Exp. Capital</th>
+        </tr>
+      </thead>
+      <tbody id="weekly-tbody"></tbody>
+    </table>
+  </div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--t3);padding:10px 0">
+    ↳ Week 1–2: Pipeline building only. No conversions expected. · Week 3–4: First responses, early pipeline. · Month 2+: Conversions scale as referral loop activates.
+  </div>
+</div>
+
+<!-- ═══════ MONTHLY VIEW ═══════ -->
+<div class="panel" id="panel-monthly">
+  <div class="sec-hdr">Monthly Summary — April to August 2026</div>
+  <div class="month-grid" id="month-grid"></div>
+
+  <div class="sec-hdr">Month-wise Expected vs Actual</div>
+  <div class="track-tbl-wrap">
+    <table class="track-tbl">
+      <thead>
+        <tr>
+          <th style="text-align:left">Month</th>
+          <th>Exp. Outreach</th>
+          <th>Act. Outreach</th>
+          <th>Gap</th>
+          <th>Exp. Capital</th>
+          <th>Act. Capital</th>
+          <th>Gap</th>
+          <th>Exp. Closures</th>
+          <th>Act. Closures</th>
+        </tr>
+      </thead>
+      <tbody id="monthly-track-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ CALENDAR ═══════ -->
+<div class="panel" id="panel-calendar">
+  <div class="sec-hdr">Daily Calendar — Click any day to log or edit actuals
+    <button onclick="resetCalendar()" style="margin-left:auto;background:transparent;border:1px solid var(--redbrd);color:var(--red);font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:5px 14px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--reddim)'" onmouseout="this.style.background='transparent'">↺ Reset All Logs</button>
+  </div>
+  <div id="cal-container"></div>
+  <div class="gap-legend">
+    <span><span class="dot" style="background:var(--green)"></span>Logged · on / above target</span>
+    <span><span class="dot" style="background:var(--amber)"></span>Logged · slightly below</span>
+    <span><span class="dot" style="background:var(--red)"></span>Logged · significantly below</span>
+    <span><span class="dot" style="background:var(--ln2)"></span>Future / not logged</span>
+  </div>
+</div>
+
+<!-- ═══════ TRACKING ═══════ -->
+<div class="panel" id="panel-tracking">
+  <div class="sec-hdr">Weekly — Expected vs Actual Comparison</div>
+  <div class="track-tbl-wrap">
+    <table class="track-tbl">
+      <thead>
+        <tr>
+          <th style="text-align:left">Week</th>
+          <th>Exp LI</th><th>Act LI</th><th>Gap</th>
+          <th>Exp Email</th><th>Act Email</th><th>Gap</th>
+          <th>Exp CA</th><th>Act CA</th><th>Gap</th>
+          <th>Exp Cap</th><th>Act Cap</th><th>Gap</th>
+        </tr>
+      </thead>
+      <tbody id="weekly-track-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="sec-hdr" style="margin-top:8px">Daily Log — All Logged Days</div>
+  <div class="track-tbl-wrap">
+    <table class="track-tbl">
+      <thead>
+        <tr>
+          <th style="text-align:left">Date</th>
+          <th>LI</th><th>Email</th><th>CA</th>
+          <th>Conversions</th><th>Capital (₹Cr)</th><th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="daily-log-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ AI COACH ═══════ -->
+<div class="panel" id="panel-ai">
+
+  <!-- API KEY SECTION -->
+  <div id="apikey-section" style="border:1px solid var(--aibrd);background:var(--aidim);padding:22px;margin-bottom:24px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="width:28px;height:28px;background:var(--ai);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">⚿</div>
+      <div>
+        <div style="font-family:var(--disp);font-size:13px;font-weight:700;color:var(--t)">Anthropic API Key</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">Required to use all AI features below</div>
+      </div>
+      <div id="apikey-status" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--t3)">Not set</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <input
+        type="password"
+        id="apikey-inp"
+        placeholder="sk-ant-api03-…"
+        style="flex:1;background:var(--bg);border:1px solid var(--ln2);color:var(--amber2);font-family:var(--mono);font-size:13px;padding:11px 14px;outline:none;transition:border-color .15s"
+        onfocus="this.style.borderColor='var(--ai)'"
+        onblur="this.style.borderColor='var(--ln2)'"
+        onkeydown="if(event.key==='Enter')saveApiKey()"
+      >
+      <button onclick="saveApiKey()" style="background:var(--ai);border:none;color:#fff;font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding:11px 20px;cursor:pointer;white-space:nowrap;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Save Key</button>
+      <button onclick="clearApiKey()" style="background:transparent;border:1px solid var(--ln2);color:var(--t3);font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:11px 16px;cursor:pointer;transition:color .15s,border-color .15s" onmouseover="this.style.color='var(--red)';this.style.borderColor='var(--redbrd)'" onmouseout="this.style.color='var(--t3)';this.style.borderColor='var(--ln2)'">Clear</button>
+    </div>
+    <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--t3);line-height:1.7">
+      Get your key at <span style="color:var(--ai)">console.anthropic.com</span> &nbsp;·&nbsp; Stored in browser localStorage only &nbsp;·&nbsp; Never sent anywhere except Anthropic's API
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-hdr">
+      <div class="ai-icon">✦</div>
+      <div>
+        <div class="ai-section-title">Weekly Performance Analysis</div>
+      </div>
+      <div class="ai-section-sub">Reads your actual log and diagnoses gaps</div>
+    </div>
+    <div class="ai-output" id="ai-weekly-out">Click below to generate your weekly analysis based on logged data.</div>
+    <div class="ai-btn-row">
+      <button class="ai-btn" onclick="aiWeeklyAnalysis()">✦ Analyse This Week</button>
+      <button class="ai-btn secondary" onclick="aiMonthlyForecast()">✦ Monthly Forecast Read</button>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-hdr">
+      <div class="ai-icon">⚑</div>
+      <div>
+        <div class="ai-section-title">Gap Diagnosis</div>
+      </div>
+      <div class="ai-section-sub">Identifies which channels are underperforming and why</div>
+    </div>
+    <div class="ai-output" id="ai-gap-out">Click to diagnose gaps across your channels.</div>
+    <div class="ai-btn-row">
+      <button class="ai-btn" onclick="aiGapDiagnosis()">⚑ Diagnose My Gaps</button>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-hdr">
+      <div class="ai-icon">◈</div>
+      <div>
+        <div class="ai-section-title">Outreach Message Generator</div>
+      </div>
+      <div class="ai-section-sub">Generates channel-specific outreach copy</div>
+    </div>
+    <div class="ai-output" id="ai-msg-out">Select a channel and generate a ready-to-use outreach message.</div>
+    <div class="ai-btn-row">
+      <button class="ai-btn" onclick="aiMessage('linkedin')">LinkedIn Connect Note</button>
+      <button class="ai-btn secondary" onclick="aiMessage('email')">Email Outreach</button>
+      <button class="ai-btn secondary" onclick="aiMessage('ca')">CA Introduction</button>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-hdr">
+      <div class="ai-icon">✉</div>
+      <div>
+        <div class="ai-section-title">Ask the AI Coach</div>
+      </div>
+      <div class="ai-section-sub">Ask anything about your capital raise</div>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg ai">Hello. I'm your capital raise coach. I have full context of your plan — ₹20 Cr over 4–5 months via LinkedIn, Email, and CA outreach. Ask me anything: strategy, objection handling, pipeline review, or what to do today.</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-inp" type="text" id="chat-inp" placeholder="Ask anything about your raise…" onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" onclick="sendChat()">Send →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ════════════════════════════════════
+   CONSTANTS + PLAN
+════════════════════════════════════ */
+const TARGET_CR  = 20;
+const START_DATE = new Date('2026-04-07');
+const TOTAL_WEEKS = 20;
+
+// Daily targets by intensity
+const INTENSITY = {
+  high:   { li: 25, em: 70, ca: 4 },
+  medium: { li: 15, em: 50, ca: 3 },
+  low:    { li: 5,  em: 20, ca: 1 },
+  off:    { li: 0,  em: 0,  ca: 0 },
+};
+
+// Per-week plan (0-indexed)
+const WEEK_PLAN = [];
+for (let w = 0; w < TOTAL_WEEKS; w++) {
+  let phase, li, em, ca, convFrac, capCr;
+  if (w < 2) {
+    phase = 'build'; li = 100; em = 300; ca = 15;
+    convFrac = 0; capCr = 0;
+  } else if (w < 4) {
+    phase = 'build'; li = 100; em = 300; ca = 15;
+    convFrac = 0; capCr = 0;
+  } else if (w < 6) {
+    phase = 'early'; li = 100; em = 300; ca = 15;
+    convFrac = 0.3; capCr = 0.3;
+  } else if (w < 8) {
+    phase = 'early'; li = 120; em = 350; ca = 20;
+    convFrac = 0.5; capCr = 0.5;
+  } else if (w < 12) {
+    phase = 'scale'; li = 120; em = 350; ca = 20;
+    convFrac = 1; capCr = 1.2;
+  } else if (w < 16) {
+    phase = 'scale'; li = 140; em = 400; ca = 25;
+    convFrac = 1.5; capCr = 1.5;
+  } else {
+    phase = 'scale'; li = 120; em = 350; ca = 20;
+    convFrac = 1; capCr = 1;
+  }
+  const expResp = Math.round(li * 0.02 + em * 0.0167);
+  WEEK_PLAN.push({ w: w+1, phase, li, em, ca, expResp, convFrac, capCr });
+}
+
+// Monthly aggregations (months 0=Apr, 1=May, 2=Jun, 3=Jul, 4=Aug)
+const MONTHS_META = [
+  { name: 'April', weeks: [0,1,2,3] },
+  { name: 'May',   weeks: [4,5,6,7] },
+  { name: 'June',  weeks: [8,9,10,11] },
+  { name: 'July',  weeks: [12,13,14,15] },
+  { name: 'August',weeks: [16,17,18,19] },
+];
+
+/* ════════════════════════════════════
+   STATE
+════════════════════════════════════ */
+let LOG = {};
+try { LOG = JSON.parse(localStorage.getItem('cr_log_v1') || '{}'); } catch(e){}
+function saveLog() { try { localStorage.setItem('cr_log_v1', JSON.stringify(LOG)); } catch(e){} }
+
+let MODAL_DATE = null;
+
+/* ════════════════════════════════════
+   DATE HELPERS
+════════════════════════════════════ */
+function toKey(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+function dayElapsed() {
+  const now = new Date();
+  return Math.max(0, Math.floor((now - START_DATE) / 86400000));
+}
+function weekOfDate(d) {
+  const diff = Math.floor((d - START_DATE) / 86400000);
+  return Math.floor(diff / 7);
+}
+function dayIntensity(d) {
+  const dow = d.getDay();
+  if (dow === 0) return 'off';
+  if (dow === 6) return 'low';
+  if (dow <= 3)  return 'high';
+  return 'medium';
+}
+function expectedForDate(d) {
+  const wk = weekOfDate(d);
+  if (wk < 0 || wk >= TOTAL_WEEKS) return { li:0, em:0, ca:0 };
+  const plan = WEEK_PLAN[wk];
+  const int  = dayIntensity(d);
+  const frac = { high:0.33, medium:0.25, low:0.08, off:0 }[int];
+  return {
+    li: Math.round(plan.li * frac),
+    em: Math.round(plan.em * frac),
+    ca: Math.round(plan.ca * frac),
+    capCr: plan.capCr / 5,
+  };
+}
+
+/* ════════════════════════════════════
+   PANEL SWITCHING
+════════════════════════════════════ */
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+  renderAll();
+}
+
+/* ════════════════════════════════════
+   RENDER ALL
+════════════════════════════════════ */
+function renderAll() {
+  renderDashboard();
+  renderWeeklyTable();
+  renderMonthly();
+  renderCalendar();
+  renderTracking();
+}
+
+/* ── DASHBOARD ── */
+function renderDashboard() {
+  const elapsed = dayElapsed();
+
+  // Expected capital by day (sum plan capitals for elapsed weeks)
+  let expCapTillNow = 0;
+  for (let d = 0; d < elapsed; d++) {
+    const dt = new Date(START_DATE); dt.setDate(dt.getDate() + d);
+    const exp = expectedForDate(dt);
+    expCapTillNow += exp.capCr || 0;
+  }
+
+  // Actuals
+  let actCap = 0, actOut = 0, actConv = 0, expOut = 0, expConv = 0;
+  Object.values(LOG).forEach(e => {
+    actCap  += (e.cap  || 0);
+    actOut  += (e.li   || 0) + (e.em || 0) + (e.ca || 0);
+    actConv += (e.conv || 0);
+  });
+
+  for (let d = 0; d < elapsed; d++) {
+    const dt = new Date(START_DATE); dt.setDate(dt.getDate() + d);
+    const exp = expectedForDate(dt);
+    expOut  += exp.li + exp.em + exp.ca;
+    const wk = weekOfDate(dt);
+    if (wk >= 0 && wk < TOTAL_WEEKS) expConv += WEEK_PLAN[wk].convFrac / 5;
+  }
+
+  const gap = actCap - expCapTillNow;
+  const invCount = Object.values(LOG).reduce((a,e) => a+(e.conv||0), 0);
+
+  setText('d-expected', `₹${expCapTillNow.toFixed(2)} Cr`);
+  setText('d-exp-sub', `Day ${elapsed} of 120`);
+  setText('d-actual', `₹${actCap.toFixed(2)} Cr`);
+  setText('d-act-sub', `${invCount} investor${invCount!==1?'s':''}`);
+
+  const gapEl = document.getElementById('d-gap');
+  if (gap > 0) { gapEl.textContent = `+₹${gap.toFixed(2)} Cr`; gapEl.className = 'dash-cell-val green'; setText('d-gap-sub', 'Ahead of plan'); }
+  else if (gap < 0) { gapEl.textContent = `-₹${Math.abs(gap).toFixed(2)} Cr`; gapEl.className = 'dash-cell-val red'; setText('d-gap-sub', 'Behind plan'); }
+  else { gapEl.textContent = '₹0'; gapEl.className = 'dash-cell-val neutral'; setText('d-gap-sub', 'On plan'); }
+
+  setText('d-outreach', `${actOut} / ${Math.round(expOut)}`);
+  const outGap = actOut - expOut;
+  setText('d-out-sub', outGap >= 0 ? `+${Math.round(outGap)} ahead` : `${Math.round(outGap)} behind`);
+
+  setText('d-conv', `${actConv} / ${expConv.toFixed(1)}`);
+  setText('d-conv-sub', 'investors closed');
+
+  const ep = Math.min(100, (expCapTillNow / TARGET_CR) * 100);
+  const ap = Math.min(100, (actCap / TARGET_CR) * 100);
+  document.getElementById('prog-exp').style.width = ep + '%';
+  document.getElementById('prog-act').style.width = ap + '%';
+  setText('prog-exp-label', `Expected: ₹${expCapTillNow.toFixed(2)} Cr`);
+  setText('prog-act-label', `Actual: ₹${actCap.toFixed(2)} Cr`);
+}
+
+/* ── WEEKLY TABLE ── */
+function renderWeeklyTable() {
+  const months = ['','Apr','Apr','Apr','Apr','May','May','May','May','Jun','Jun','Jun','Jun','Jul','Jul','Jul','Jul','Aug','Aug','Aug','Aug'];
+  let lastMonth = '';
+  let html = '';
+  WEEK_PLAN.forEach((w, i) => {
+    const mo = months[i+1] || 'Aug';
+    if (mo !== lastMonth) {
+      html += `<tr class="tbl-month-hdr"><td colspan="7">${mo} 2026</td></tr>`;
+      lastMonth = mo;
+    }
+    const phaseHtml = `<span class="wk-phase ${w.phase}">${w.phase === 'build' ? 'Pipeline Build' : w.phase === 'early' ? 'Early Conv.' : 'Scaling'}</span>`;
+    const convDisp  = w.convFrac === 0 ? `<span class="wk-zero">0</span>` : w.convFrac.toFixed(1);
+    const capDisp   = w.capCr   === 0 ? `<span class="wk-zero">₹0</span>` : `<span class="wk-cap">₹${w.capCr.toFixed(1)} Cr</span>`;
+    html += `<tr>
+      <td>Week ${w.w} &nbsp;${phaseHtml}</td>
+      <td>${w.li}</td>
+      <td>${w.em}</td>
+      <td>${w.ca}</td>
+      <td>${w.expResp}</td>
+      <td>${convDisp}</td>
+      <td>${capDisp}</td>
+    </tr>`;
+  });
+  document.getElementById('weekly-tbody').innerHTML = html;
+}
+
+/* ── MONTHLY ── */
+function renderMonthly() {
+  let html = '';
+  MONTHS_META.forEach(mo => {
+    const weeks = mo.weeks.map(wi => WEEK_PLAN[wi]).filter(Boolean);
+    const expLi  = weeks.reduce((a,w) => a+w.li,  0);
+    const expEm  = weeks.reduce((a,w) => a+w.em,  0);
+    const expCa  = weeks.reduce((a,w) => a+w.ca,  0);
+    const expCap = weeks.reduce((a,w) => a+w.capCr, 0);
+    const expConv= weeks.reduce((a,w) => a+w.convFrac, 0);
+    const expPipe= weeks.reduce((a,w) => a+w.expResp, 0);
+    html += `<div class="month-card">
+      <div class="month-card-title">${mo.name}</div>
+      <div class="month-row"><div class="month-k">LI Connects</div><div class="month-v">${expLi}</div></div>
+      <div class="month-row"><div class="month-k">Emails</div><div class="month-v">${expEm}</div></div>
+      <div class="month-row"><div class="month-k">CA Outreach</div><div class="month-v">${expCa}</div></div>
+      <div class="month-row"><div class="month-k">Exp. Responses</div><div class="month-v">${expPipe}</div></div>
+      <div class="month-row"><div class="month-k">Exp. Conversions</div><div class="month-v ${expConv===0?'zero':''}">${expConv === 0 ? '—' : expConv.toFixed(1)}</div></div>
+      <div class="month-row"><div class="month-k">Exp. Capital</div><div class="month-v cap ${expCap===0?'zero':''}">${expCap === 0 ? '₹0' : '₹' + expCap.toFixed(1) + ' Cr'}</div></div>
+    </div>`;
+  });
+  document.getElementById('month-grid').innerHTML = html;
+
+  // Monthly tracking table
+  let thtml = '';
+  MONTHS_META.forEach(mo => {
+    const weeks = mo.weeks.map(wi => WEEK_PLAN[wi]).filter(Boolean);
+    const expOut  = weeks.reduce((a,w) => a+(w.li+w.em+w.ca), 0);
+    const expCap  = weeks.reduce((a,w) => a+w.capCr, 0);
+    const expConv = weeks.reduce((a,w) => a+w.convFrac, 0);
+
+    // Actuals for this month (rough by date range)
+    const moStart = new Date(START_DATE); moStart.setDate(moStart.getDate() + mo.weeks[0]*7);
+    const moEnd   = new Date(START_DATE); moEnd.setDate(moEnd.getDate() + (mo.weeks[mo.weeks.length-1]+1)*7 - 1);
+    let actOut=0, actCap=0, actConv=0;
+    Object.entries(LOG).forEach(([k, e]) => {
+      const d = new Date(k);
+      if (d >= moStart && d <= moEnd) {
+        actOut  += (e.li||0)+(e.em||0)+(e.ca||0);
+        actCap  += (e.cap||0);
+        actConv += (e.conv||0);
+      }
+    });
+
+    const outGap  = actOut  - expOut;
+    const capGap  = actCap  - expCap;
+
+    thtml += `<tr>
+      <td>${mo.name}</td>
+      <td>${expOut}</td>
+      <td>${actOut || '—'}</td>
+      <td class="${outGap > 0 ? 'gap-pos' : outGap < 0 ? 'gap-neg' : 'gap-zero'}">${actOut ? (outGap > 0 ? '+'+outGap : outGap) : '—'}</td>
+      <td>₹${expCap.toFixed(1)} Cr</td>
+      <td>${actCap > 0 ? '₹' + actCap.toFixed(2) + ' Cr' : '—'}</td>
+      <td class="${capGap > 0 ? 'gap-pos' : capGap < 0 ? 'gap-neg' : 'gap-zero'}">${actCap > 0 ? (capGap > 0 ? '+₹'+capGap.toFixed(2) : '-₹'+Math.abs(capGap).toFixed(2)) : '—'}</td>
+      <td>${expConv === 0 ? '—' : expConv.toFixed(1)}</td>
+      <td>${actConv || '—'}</td>
+    </tr>`;
+  });
+  document.getElementById('monthly-track-tbody').innerHTML = thtml;
+}
+
+/* ── CALENDAR ── */
+function renderCalendar() {
+  const container = document.getElementById('cal-container');
+  const months = [
+    { name: 'April 2026',   start: new Date('2026-04-07'), days: 24 },
+    { name: 'May 2026',     start: new Date('2026-05-01'), days: 31 },
+    { name: 'June 2026',    start: new Date('2026-06-01'), days: 30 },
+    { name: 'July 2026',    start: new Date('2026-07-01'), days: 31 },
+    { name: 'August 2026',  start: new Date('2026-08-01'), days: 5  },
+  ];
+  const todayStr = toKey(new Date());
+  const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  let html = '';
+  months.forEach(mo => {
+    html += `<div class="cal-month-title">${mo.name}</div>`;
+    html += `<div class="cal-dow-hdr">${dows.map(d=>`<div class="cal-dow">${d}</div>`).join('')}</div>`;
+    html += `<div class="cal-grid">`;
+
+    const firstDow = mo.start.getDay();
+    for (let i = 0; i < firstDow; i++) html += `<div class="cal-cell empty"></div>`;
+
+    for (let d = 0; d < mo.days; d++) {
+      const dt  = new Date(mo.start); dt.setDate(dt.getDate() + d);
+      const key = toKey(dt);
+      const exp = expectedForDate(dt);
+      const log = LOG[key];
+      const dow = dt.getDay();
+      const int = dayIntensity(dt);
+      const isToday = key === todayStr;
+      const isPast  = dt < new Date() && !isToday;
+
+      const expTotal = exp.li + exp.em + exp.ca;
+
+      let cls = 'cal-cell';
+      if (dow === 0 || dow === 6) cls += ' weekend';
+      if (isToday)    cls += ' today';
+      if (log) {
+        const actTotal = (log.li||0)+(log.em||0)+(log.ca||0);
+        const ratio = expTotal > 0 ? actTotal/expTotal : 1;
+        cls += ' logged';
+        if (ratio >= 0.85)     cls += ' over-target';
+        else if (ratio >= 0.5) cls += ' under-target';
+        else                   cls += ' far-behind';
+      }
+
+      const intLabel = int === 'off' ? '' : int.charAt(0).toUpperCase()+int.slice(1);
+      const editLabel = log ? '✎ edit' : '+ log';
+      const actLine = log
+        ? `<div style="font-family:var(--mono);font-size:9px;color:var(--green);line-height:1.6;margin-top:2px">✓ LI ${log.li||0} · EM ${log.em||0} · CA ${log.ca||0}${log.cap ? ' · ₹'+log.cap+'Cr' : ''}</div>`
+        : '';
+
+      html += `<div class="${cls}" onclick="openModal('${key}', '${dt.toDateString()}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px">
+          <div class="cal-d">${dt.getDate()}</div>
+          <div style="font-family:var(--mono);font-size:8px;color:${log ? 'var(--green)' : 'var(--t4)'};letter-spacing:0.04em;margin-top:1px">${editLabel}</div>
+        </div>
+        ${int !== 'off' ? `<div class="cal-intensity">${intLabel}</div>` : ''}
+        <div style="font-family:var(--mono);font-size:9px;color:var(--t4);line-height:1.6">↗ ${exp.li} · ${exp.em} · ${exp.ca}</div>
+        ${actLine}
+      </div>`;
+    }
+
+    const lastDow = (mo.start.getDay() + mo.days - 1) % 7;
+    if (lastDow !== 6) { for (let i = lastDow+1; i <= 6; i++) html += `<div class="cal-cell empty"></div>`; }
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+}
+
+/* ── TRACKING ── */
+function renderTracking() {
+  // Weekly comparison
+  let whtml = '';
+  WEEK_PLAN.forEach(w => {
+    const wStart = new Date(START_DATE); wStart.setDate(wStart.getDate() + (w.w-1)*7);
+    let actLi=0, actEm=0, actCa=0, actCap=0;
+    for (let d=0; d<7; d++) {
+      const dt = new Date(wStart); dt.setDate(dt.getDate()+d);
+      const e = LOG[toKey(dt)];
+      if (e) { actLi+=(e.li||0); actEm+=(e.em||0); actCa+=(e.ca||0); actCap+=(e.cap||0); }
+    }
+    const hasData = actLi||actEm||actCa||actCap;
+    const gapLi   = actLi  - w.li;
+    const gapEm   = actEm  - w.em;
+    const gapCa   = actCa  - w.ca;
+    const gapCap  = actCap - w.capCr;
+    function gC(v) { return v>0?'gap-pos':v<0?'gap-neg':'gap-zero'; }
+    function gF(v) { return v>0?'+'+v:v; }
+    whtml += `<tr>
+      <td>Week ${w.w}</td>
+      <td>${w.li}</td><td>${hasData?actLi:'—'}</td><td class="${gC(gapLi)}">${hasData?gF(gapLi):'—'}</td>
+      <td>${w.em}</td><td>${hasData?actEm:'—'}</td><td class="${gC(gapEm)}">${hasData?gF(gapEm):'—'}</td>
+      <td>${w.ca}</td><td>${hasData?actCa:'—'}</td><td class="${gC(gapCa)}">${hasData?gF(gapCa):'—'}</td>
+      <td>₹${w.capCr.toFixed(1)}</td><td>${hasData?'₹'+actCap.toFixed(2):'—'}</td>
+      <td class="${gC(gapCap)}">${hasData?(gapCap>0?'+₹'+gapCap.toFixed(2):'-₹'+Math.abs(gapCap).toFixed(2)):'—'}</td>
+    </tr>`;
+  });
+  document.getElementById('weekly-track-tbody').innerHTML = whtml;
+
+  // Daily log
+  const keys = Object.keys(LOG).sort();
+  let dhtml = keys.length === 0
+    ? '<tr><td colspan="7" style="color:var(--t4);text-align:center;padding:24px">No days logged yet. Click any day in the calendar to log.</td></tr>'
+    : keys.map(k => {
+        const e = LOG[k];
+        return `<tr>
+          <td>${k}</td>
+          <td>${e.li||0}</td><td>${e.em||0}</td><td>${e.ca||0}</td>
+          <td>${e.conv||0}</td><td>₹${(e.cap||0).toFixed(2)} Cr</td>
+          <td style="color:var(--t3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.note||'—'}</td>
+        </tr>`;
+      }).join('');
+  document.getElementById('daily-log-tbody').innerHTML = dhtml;
+}
+
+/* ════════════════════════════════════
+   MODAL
+════════════════════════════════════ */
+function openModal(key, label) {
+  MODAL_DATE = key;
+  const dt  = new Date(key);
+  const exp = expectedForDate(dt);
+  const log = LOG[key] || {};
+  const isEdit = !!LOG[key];
+
+  document.getElementById('modal-title').textContent = isEdit ? `Edit: ${label}` : `Log: ${label}`;
+  document.getElementById('modal-save-btn').textContent = isEdit ? 'Update Entry →' : 'Save Day →';
+  document.getElementById('modal-clear-btn') && (document.getElementById('modal-clear-btn').style.display = 'none');
+
+  document.getElementById('modal-expected').innerHTML =
+    `<strong>Expected:</strong>&nbsp; LI ${exp.li} &nbsp;·&nbsp; Email ${exp.em} &nbsp;·&nbsp; CA ${exp.ca} &nbsp;·&nbsp; Cap ₹${(exp.capCr||0).toFixed(3)} Cr`;
+  document.getElementById('hint-li').textContent = `Target: ${exp.li}`;
+  document.getElementById('hint-em').textContent = `Target: ${exp.em}`;
+  document.getElementById('hint-ca').textContent = `Target: ${exp.ca}`;
+
+  document.getElementById('m-li').value   = log.li   != null ? log.li   : '';
+  document.getElementById('m-em').value   = log.em   != null ? log.em   : '';
+  document.getElementById('m-ca').value   = log.ca   != null ? log.ca   : '';
+  document.getElementById('m-conv').value = log.conv != null ? log.conv : '';
+  document.getElementById('m-cap').value  = log.cap  != null ? log.cap  : '';
+  document.getElementById('m-note').value = log.note || '';
+
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function saveDay() {
+  if (!MODAL_DATE) return;
+  LOG[MODAL_DATE] = {
+    li:   parseFloat(document.getElementById('m-li').value)   || 0,
+    em:   parseFloat(document.getElementById('m-em').value)   || 0,
+    ca:   parseFloat(document.getElementById('m-ca').value)   || 0,
+    conv: parseFloat(document.getElementById('m-conv').value) || 0,
+    cap:  parseFloat(document.getElementById('m-cap').value)  || 0,
+    note: document.getElementById('m-note').value,
+  };
+  saveLog();
+  closeModal();
+  renderAll();
+}
+function resetCalendar() {
+  if (!confirm('Reset ALL logged data? This cannot be undone.')) return;
+  LOG = {};
+  saveLog();
+  renderAll();
+}
+
+/* ════════════════════════════════════
+   API KEY MANAGEMENT
+════════════════════════════════════ */
+function getApiKey() {
+  return localStorage.getItem('cr_apikey') || '';
+}
+function saveApiKey() {
+  const val = document.getElementById('apikey-inp').value.trim();
+  if (!val) { flashKeyStatus('Enter a key first', 'var(--red)'); return; }
+  if (!val.startsWith('sk-ant-')) { flashKeyStatus('Key should start with sk-ant-…', 'var(--amber)'); return; }
+  localStorage.setItem('cr_apikey', val);
+  document.getElementById('apikey-inp').value = '';
+  flashKeyStatus('✓ Key saved', 'var(--green)');
+}
+function clearApiKey() {
+  localStorage.removeItem('cr_apikey');
+  document.getElementById('apikey-inp').value = '';
+  flashKeyStatus('Key cleared', 'var(--t3)');
+}
+function flashKeyStatus(msg, color) {
+  const el = document.getElementById('apikey-status');
+  el.textContent = msg;
+  el.style.color = color;
+}
+function initApiKeyUI() {
+  const key = getApiKey();
+  const el = document.getElementById('apikey-status');
+  if (key) {
+    el.textContent = '✓ Key set (' + key.slice(0,12) + '…)';
+    el.style.color = 'var(--green)';
+  } else {
+    el.textContent = 'Not set';
+    el.style.color = 'var(--t3)';
+  }
+}
+initApiKeyUI();
+
+/* ════════════════════════════════════
+   AI HELPERS
+════════════════════════════════════ */
+function buildContext() {
+  const elapsed = dayElapsed();
+  let actCap=0, actOut=0, actConv=0, actLi=0, actEm=0, actCa=0;
+  Object.values(LOG).forEach(e => {
+    actCap  += e.cap  || 0;
+    actOut  += (e.li||0)+(e.em||0)+(e.ca||0);
+    actConv += e.conv || 0;
+    actLi   += e.li   || 0;
+    actEm   += e.em   || 0;
+    actCa   += e.ca   || 0;
+  });
+  const daysLogged = Object.keys(LOG).length;
+  let expCap=0, expLi=0, expEm=0, expCa=0;
+  for (let d=0; d<elapsed; d++) {
+    const dt = new Date(START_DATE); dt.setDate(dt.getDate()+d);
+    const exp = expectedForDate(dt);
+    expCap += exp.capCr || 0;
+    expLi  += exp.li; expEm += exp.em; expCa += exp.ca;
+  }
+  return `CAPITAL RAISE TRACKER CONTEXT:
+Target: ₹20 Cr over 4-5 months (Apr-Aug 2026)
+Channels: LinkedIn, Email, CA outreach
+Day: ${elapsed} of 120 elapsed | Days logged: ${daysLogged}
+
+Expected till date:
+  Capital: ₹${expCap.toFixed(2)} Cr
+  LinkedIn: ${Math.round(expLi)} | Email: ${Math.round(expEm)} | CA: ${Math.round(expCa)}
+
+Actual till date:
+  Capital raised: ₹${actCap.toFixed(2)} Cr
+  LinkedIn: ${actLi} | Email: ${actEm} | CA: ${actCa} | Total outreach: ${actOut}
+  Investors closed: ${actConv}
+
+Gap: ${actCap >= expCap ? '+' : ''}₹${(actCap-expCap).toFixed(2)} Cr vs plan
+LinkedIn gap: ${actLi - Math.round(expLi)} | Email gap: ${actEm - Math.round(expEm)} | CA gap: ${actCa - Math.round(expCa)}
+
+Base assumptions:
+- LinkedIn: 100 connects/wk, 2% response, 0.02% conversion, ₹1 Cr avg ticket
+- Email: 300/wk → 5 leads → ~0.75 close/wk
+- CA: 15 outreach/wk, 50 outreach = 1 strong relationship, 20-30 referrals = 1 conversion
+- Week 1-4: NO conversions expected (pipeline build phase)
+- Capital starts Month 2 onwards`;
+}
+
+async function callAI(messages, outputId) {
+  const el = document.getElementById(outputId);
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    el.classList.remove('loading');
+    el.innerHTML = '<strong style="color:var(--amber)">API key not set.</strong> Enter your Anthropic API key at the top of this page to use AI features.';
+    return;
+  }
+  el.classList.add('loading');
+  el.textContent = 'Analysing…';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are a capital raising coach for an Indian founder raising ₹20 Cr via private NCD placement. You give sharp, practical, direct advice. No fluff. Use short paragraphs. Highlight numbers. Use bullet points for action items. Always end with 1-2 specific actions for TODAY.`,
+        messages,
+      }),
+    });
+    const data = await res.json();
+    const text = data.content?.map(b => b.text || '').join('\n') || 'No response.';
+    el.classList.remove('loading');
+    el.innerHTML = markdownToHtml(text);
+  } catch(e) {
+    el.classList.remove('loading');
+    el.textContent = 'Error contacting AI. Check connection.';
+  }
+}
+
+function markdownToHtml(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^### (.*)/gm, '<strong>$1</strong>')
+    .replace(/^## (.*)/gm, '<strong>$1</strong>')
+    .replace(/^# (.*)/gm, '<strong>$1</strong>')
+    .replace(/^[-•] (.*)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^/, '<p>').replace(/$/, '</p>')
+    .replace(/<p><\/p>/g, '');
+}
+
+async function aiWeeklyAnalysis() {
+  const ctx = buildContext();
+  await callAI([{ role:'user', content: `${ctx}\n\nGive me a sharp weekly performance analysis. What's on track? What's behind? What's the highest priority to fix this week? Be specific with numbers.` }], 'ai-weekly-out');
+}
+
+async function aiMonthlyForecast() {
+  const ctx = buildContext();
+  await callAI([{ role:'user', content: `${ctx}\n\nBased on my current pace, forecast where I'll land at Month 2, Month 3, and Month 5 (end). What needs to change to hit ₹20 Cr? Give realistic numbers.` }], 'ai-weekly-out');
+}
+
+async function aiGapDiagnosis() {
+  const ctx = buildContext();
+  await callAI([{ role:'user', content: `${ctx}\n\nDiagnose my channel gaps. Which channel is most underperforming relative to plan? What's the likely root cause? What 2 specific actions this week will close the most gap?` }], 'ai-gap-out');
+}
+
+async function aiMessage(channel) {
+  const channelContext = {
+    linkedin: 'Write a LinkedIn connection request message for an HNI investor. Context: private NCD placement, 12-14% yield, secured instrument, 24-month tenure. Max 300 chars. Conversational, not salesy.',
+    email: 'Write a cold email subject line + 3-line email body for a direct outreach to an HNI. About: NCD investment, ₹1 Cr min ticket, 12-14% yield. Make it specific, credible, and curiosity-building.',
+    ca: 'Write an introduction message to a CA for a referral partnership. Offering: NCD instrument, 1% referral fee, clean documentation. Professional, brief, respects their time.',
+  };
+  await callAI([{ role:'user', content: channelContext[channel] }], 'ai-msg-out');
+}
+
+/* CHAT */
+const chatHistory = [];
+async function sendChat() {
+  const inp = document.getElementById('chat-inp');
+  const msg = inp.value.trim();
+  if (!msg) return;
+
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    appendChatMsg('ai', '**API key not set.** Enter your Anthropic API key at the top of the AI Coach tab.');
+    return;
+  }
+
+  inp.value = '';
+  appendChatMsg('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+
+  const loadId = appendChatMsg('ai', '…', true);
+  const ctx = buildContext();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are a capital raising coach for an Indian founder raising ₹20 Cr via private NCD placement. Here is their tracker context:\n${ctx}\n\nGive sharp, concise, practical answers. Use numbers when relevant. No preamble.`,
+        messages: chatHistory,
+      }),
+    });
+    const data = await res.json();
+    const reply = data.content?.map(b=>b.text||'').join('\n') || 'No response.';
+    chatHistory.push({ role: 'assistant', content: reply });
+    updateChatMsg(loadId, reply);
+  } catch(e) {
+    updateChatMsg(loadId, 'Connection error. Please retry.');
+  }
+}
+
+let chatMsgId = 0;
+function appendChatMsg(role, text, loading=false) {
+  const id = 'cm-' + (chatMsgId++);
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}${loading?' loading':''}`;
+  div.id = id;
+  div.innerHTML = markdownToHtml(text);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+function updateChatMsg(id, text) {
+  const el = document.getElementById(id);
+  if (el) { el.classList.remove('loading'); el.innerHTML = markdownToHtml(text); }
+  const msgs = document.getElementById('chat-messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ════════════════════════════════════
+   UTILS
+════════════════════════════════════ */
+function setText(id, val) { const el=document.getElementById(id); if(el) el.textContent=val; }
+document.getElementById('modal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+renderAll();
+</script>
+</body>
+</html>
